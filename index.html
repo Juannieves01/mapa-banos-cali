@@ -1057,6 +1057,17 @@ svg.leaflet-image-layer.leaflet-interactive path {
     color:var(--muted);
     margin-bottom:12px;
   }
+  .detail-card .dc-foto{
+    width:100%;
+    max-height:220px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:14px;
+    display:none;
+  }
+  .detail-card .dc-foto.visible{
+    display:block;
+  }
   .detail-card .dc-stats{
     display:flex;
     gap:10px;
@@ -1163,6 +1174,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </div>
   </div>
   <div class="dc-detalle" id="dcDetalle"></div>
+  <img class="dc-foto" id="dcFoto" alt="Foto del albergue">
   <div class="dc-stats">
     <div class="dc-stat">
       <div class="val" id="dcUnidades">0</div>
@@ -1186,7 +1198,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
     { lat: 3.371361, lng: -76.555333, unidades: 1, nombre: "Albergue 3", detalle: "" },
     { lat: 3.372278, lng: -76.555361, unidades: 1, nombre: "Albergue 4", detalle: "" },
     { lat: 3.371333, lng: -76.557278, unidades: 4, nombre: "Altos de Santa Helena", detalle: "" },
-    { lat: 3.477167, lng: -76.494222, unidades: 2, nombre: "Instalación Chiminangos", detalle: "Cl. 62 #11, Comuna 5, Cali, Valle del Cauca" }
+    { lat: 3.477167, lng: -76.494222, unidades: 2, nombre: "Instalación Chiminangos", detalle: "Cl. 62 #11, Comuna 5, Cali, Valle del Cauca" },
+    { lat: 3.477778, lng: -76.495111, unidades: 2, nombre: "Albergue Chiminangos 2", detalle: "", foto: "img/foto7.jpg" },
+    { lat: 3.477694, lng: -76.495194, unidades: 1, nombre: "Albergue Chiminangos 3", detalle: "Cra 1B3 # 61A-121, Comuna 5, Cali, Valle del Cauca", foto: "img/foto8.jpg" }
   ];
 
   document.getElementById('total-puntos').textContent = puntos.length;
@@ -1234,6 +1248,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   const dcNombre = document.getElementById('dcNombre');
   const dcDetalle = document.getElementById('dcDetalle');
   const dcUnidades = document.getElementById('dcUnidades');
+  const dcFoto = document.getElementById('dcFoto');
   const dcRuta = document.getElementById('dcRuta');
   const dcCopiar = document.getElementById('dcCopiar');
 
@@ -1245,6 +1260,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
     dcNombre.textContent = p.nombre;
     dcDetalle.textContent = p.detalle || `${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`;
     dcUnidades.textContent = p.unidades;
+    if (p.foto) {
+      dcFoto.src = p.foto;
+      dcFoto.classList.add('visible');
+    } else {
+      dcFoto.removeAttribute('src');
+      dcFoto.classList.remove('visible');
+    }
     dcRuta.href = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
     dcCopiar.textContent = 'Copiar coordenadas';
     dcCopiar.onclick = () => {
